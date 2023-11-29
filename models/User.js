@@ -28,6 +28,12 @@ const UserSchema = new mongoose.Schema({
         enum: ['admin', 'user'],
         default: 'user',
       },
+      passwordToken: {
+        type: String
+      },
+      passwordTokenExpiryDate: {
+        type: Date
+      }
     //   verificationToken: String,
     //   isVerified: {
     //     type: Boolean,

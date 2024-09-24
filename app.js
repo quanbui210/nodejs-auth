@@ -8,7 +8,7 @@ const connectDB = require('./db/connect')
 
 //routes
 const authRouter = require('./routes/authRouter')
-
+const audioRouter = require('./routes/audioRouter')
 //packages
 const cookieParser = require("cookie-parser");
 const rateLimiter = require('express-rate-limit');
@@ -43,8 +43,10 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/files', audioRouter)
 
-const port = process.env.PORT || 5001
+const port = 6000
+console.log(port)
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);

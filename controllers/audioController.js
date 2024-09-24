@@ -1,4 +1,3 @@
-const StatusCodes = require('http-status-codes')
 const AudioFile = require("../models/Audio")
 const multer = require('multer');
 const path = require('path');
@@ -48,6 +47,7 @@ const uploadAudioFile = async (req, res) => {
             title,
             description,
             duration,
+            uploader: req.user.userId,
             fileUrl: path.join("./uploads/audio", req.file.filename)
         })
         await audioFile.save()
@@ -59,7 +59,7 @@ const uploadManyFiles = async (req, res) => {
         if (err) {
             return res.status(500).json({ msg: "File upload error", error: err });
         }
-
+        console.log(req.user)
         // Check if files were uploaded
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ msg: "No files uploaded" });
@@ -81,11 +81,12 @@ const uploadManyFiles = async (req, res) => {
                 title: titles[i],
                 description: descriptions[i],
                 duration: durations[i],
+                uploader: req.user.userId,
                 fileUrl: path.join("./uploads/audio", req.files[i].filename)
             });
-
             await audioFile.save();
             audioFiles.push(audioFile);
+            await User.findByIdAndUpdate(req.user.userId, { $push: { audioFiles: audioFile._id } });
         }
 
         res.status(200).json({ msg: 'Files uploaded successfully', audioFiles });

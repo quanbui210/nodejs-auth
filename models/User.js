@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide password'],
         minlength: 6,
-      },
+    },
       role: {
         type: String,
         enum: ['admin', 'user'],
@@ -33,13 +33,8 @@ const UserSchema = new mongoose.Schema({
       },
       passwordTokenExpiryDate: {
         type: Date
-      }
-    //   verificationToken: String,
-    //   isVerified: {
-    //     type: Boolean,
-    //     default: false
-    //   },
-    //   verified: Date
+      },
+      audioFiles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Audio' }]
 })
 
 
